@@ -1,3 +1,6 @@
 # Blog API
 
-Trying out REST Apis
+Trying out REST Api
+
+Endpoints:
+> Will be posted later
