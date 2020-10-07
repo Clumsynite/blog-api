@@ -11,16 +11,6 @@ exports.blog_get = (req, res, next) => {
   });
 };
 
-exports.user_blogs_get = async (req, res) => {
-  try {
-    const blogs = await Blog.find({ author: req.params.id, draft: false });
-    const comments = await Comment.find({ author: req.params.id });
-    res.json({ blogs, comments });
-  } catch (error) {
-    res.status(404).json({ error: error });
-  }
-};
-
 exports.new_post = async (req, res) => {
   try {
     const blog = await new Blog({
@@ -35,10 +25,17 @@ exports.new_post = async (req, res) => {
   }
 };
 
-exports.user_drafts_get = async (req, res) => {
+exports.update_put = async (req, res) => {
   try {
-    const drafts = await Blog.find({ draft: true });
-    res.json(drafts);
+    const blog = {
+      author: req.user._id,
+      content: req.body.content,
+      title: req.body.title,
+      draft: req.body.draft || false,
+      _id: req.params.id,
+    };
+    await Blog.findByIdAndUpdate(req.params.id, blog, {});
+    res.json(blog);
   } catch (error) {
     res.status(404).json({ error: error });
   }
