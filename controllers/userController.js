@@ -3,7 +3,7 @@ const User = require("../models/user");
 
 exports.signup_post = async (req, res) => {
   try {
-    const exists = User.find({ username: req.body.username });
+    const exists = await User.findOne({ username: req.body.username });
     if (exists) {
       return res.json({
         error: "User already exists. Try a different username",
@@ -33,7 +33,7 @@ exports.user_update_post = async (req, res) => {
       _id: req.params.id,
     });
     const update = await User.findByIdAndUpdate(req.params.id, user, {});
-    res.json(update);
+    res.json(user);
   } catch (err) {
     res.json({ error: err });
   }
