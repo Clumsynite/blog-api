@@ -1,14 +1,13 @@
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const passport = require("passport");
-
 const User = require("../models/user");
 
 exports.signup_post = async (req, res) => {
   try {
-    const exists = User.find({username: req.body.username})
-    if(exists) {
-      return res.json({error: "User already exists. Try a different username"})
+    const exists = User.find({ username: req.body.username });
+    if (exists) {
+      return res.json({
+        error: "User already exists. Try a different username",
+      });
     }
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = await new User({
@@ -17,28 +16,10 @@ exports.signup_post = async (req, res) => {
       username: req.body.username,
       password: hashedPassword,
     }).save();
-    res.json(user);
+    res.json({ user, message: "Signup Successful" });
   } catch (err) {
     res.json({ error: err });
   }
-};
-
-exports.login_post = (req, res) => {
-  passport.authenticate("local", (err, user, info) => {
-    if (err || !user) {
-      return res.status(400).json({
-        message: "Something is not right",
-        user: user,
-      });
-    }
-    req.login(user, (err) => {
-      if (err) {
-        res.send(err);
-      }
-      const token = jwt.sign(user, process.env.JWT_SECRET);
-      return res.json({ user, token });
-    });
-  })(req, res);
 };
 
 exports.user_update_post = async (req, res) => {
@@ -52,17 +33,17 @@ exports.user_update_post = async (req, res) => {
       _id: req.params.id,
     });
     const update = await User.findByIdAndUpdate(req.params.id, user, {});
-    res.json(user);
+    res.json(update);
   } catch (err) {
     res.json({ error: err });
   }
 };
 
-exports.user_get = async(req, res) => {
+exports.user_get = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id)
-    res.json(user)
+    const user = await User.findById(req.params.id);
+    res.json(user);
   } catch (error) {
-    res.json({error: error})
+    res.json({ error: error });
   }
-}
+};
