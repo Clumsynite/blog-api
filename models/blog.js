@@ -8,4 +8,9 @@ const BlogSchema = new Schema({
   added: { type: Date, default: Date.now },
 });
 
+BlogSchema.virtual('timestamp').get(function() {
+  return moment(this.added).format('LLLL')
+})
+
+
 module.exports = mongoose.model("Blog", BlogSchema);

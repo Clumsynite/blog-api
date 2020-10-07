@@ -9,4 +9,9 @@ const CommentSchema = new Schema({
   added: { type: Date, default: Date.now },
 });
 
+CommentSchema.virtual('timestamp').get(function() {
+  return moment(this.added).format('LLLL')
+})
+
+
 module.exports = mongoose.model("Comment", CommentSchema);
