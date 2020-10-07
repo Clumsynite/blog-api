@@ -20,3 +20,18 @@ exports.user_blogs_get = async (req, res) => {
     res.status(404).json({ error: error });
   }
 };
+
+exports.new_post = async (req, res) => {
+  try {
+    const blog = await new Blog({
+      author: req.user._id,
+      content: req.body.content,
+      title: req.body.title,
+      draft: req.body.draft || false
+    }).save()
+    res.json(blog)
+  } catch (error) {
+    res.status(404).json({ error: error })
+    
+  }
+}
