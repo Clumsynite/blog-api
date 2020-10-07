@@ -7,6 +7,7 @@ const BlogSchema = new Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
   added: { type: Date, default: Date.now },
+  draft: {type: Boolean, default: false}
 });
 
 BlogSchema.virtual('timestamp').get(function() {
