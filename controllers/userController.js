@@ -64,3 +64,22 @@ exports.profile_get = async (req, res) => {
     res.status(404).json({ error: err });
   }
 };
+
+exports.blog_get = async (req, res) => {
+  try {
+    const blogs = await Blog.find({ author: req.params.id, draft: false });
+    const comments = await Comment.find({ author: req.params.id });
+    res.json({ blogs, comments });
+  } catch (error) {
+    res.status(404).json({ error: error });
+  }
+};
+
+exports.drafts = async (req, res) => {
+  try {
+    const drafts = await Blog.find({ author: req.user._id, draft: true });
+    res.json(drafts);
+  } catch (error) {
+    res.status(404).json({ error: error });
+  }
+};
