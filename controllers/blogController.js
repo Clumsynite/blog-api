@@ -34,3 +34,12 @@ exports.new_post = async (req, res) => {
     res.status(404).json({ error: error });
   }
 };
+
+exports.user_drafts_get = async (req, res) => {
+  try {
+    const drafts = await Blog.find({ draft: true });
+    res.json(drafts);
+  } catch (error) {
+    res.status(404).json({ error: error });
+  }
+};
