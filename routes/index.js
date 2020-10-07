@@ -1,19 +1,6 @@
-const express = require("express");
-const router = express.Router();
+const user = require('./user');
+const blog= require('./blog');
+const comment = require('./comment');
+const auth = require('./auth');
 
-const blog = require("../controllers/blogController");
-const user = require("../controllers/userController");
-const comment = require("../controllers/commentController");
-
-// Blog
-router.get("/blogs", blog.blog_get);
-
-// User
-router.post("/signup", user.signup_post);
-router.post("/login", user.login_post);
-router.post('/user/:id/update', user.user_update_post)
-router.get('/user/:id', user.user_get)
-
-// Comment
-
-module.exports = router;
+module.exports = {user, blog, comment, auth}
