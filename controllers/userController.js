@@ -24,7 +24,7 @@ exports.signup_post = async (req, res) => {
   }
 };
 
-exports.user_update_post = async (req, res) => {
+exports.user_update_put = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new User({
