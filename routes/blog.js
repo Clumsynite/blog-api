@@ -4,5 +4,6 @@ const router = express.Router();
 const blog = require("../controllers/blogController");
 
 router.get("/all", blog.blog_get);
+router.get("/:id/view", blog.user_blogs_get);
 
-module.exports = router
+module.exports = router;
