@@ -11,6 +11,7 @@ router.get("/blogs", blog.blog_get);
 // User
 router.post("/signup", user.signup_post);
 router.post("/login", user.login_post);
+router.post('/user/:id/update', user.user_update_post)
 
 // Comment
 
