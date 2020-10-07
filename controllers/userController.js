@@ -8,12 +8,12 @@ exports.signup_post = async (req, res, next) => {
   try {
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const user = new User({
+    const user = await new User({
       firstname: req.body.firstname,
       lastname: req.body.lastname,
       username: req.body.username,
-      password: req.body.password,
-    })
+      password: hashedPassword,
+    }).save()
     res.json(user)
   }catch(err) {
     res.json({error: err})
