@@ -41,11 +41,11 @@ exports.update_put = async (req, res) => {
   }
 };
 
-exports.blog_delete = async(req, res) => {
+exports.blog_delete = async (req, res) => {
   try {
-    await Blog.findByIdAndRemove(req.params.id)
-    res.json({message: "Post deleted successfully"})
+    await Blog.findByIdAndRemove(req.params.id);
+    res.json({ message: "Post deleted successfully" });
   } catch (error) {
-    res.status(404).json({ error: error })
+    res.status(404).json({ error: error });
   }
-}
+};
