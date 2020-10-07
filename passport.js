@@ -3,10 +3,6 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 const User = require("./models/user");
 
-const passportJWT = require("passport-jwt");
-const JWTStrategy = passportJWT.Strategy;
-const ExtractJWT = passportJWT.ExtractJwt;
-
 passport.use(
   new LocalStrategy((username, password, done) => {
     User.findOne({ username })
@@ -26,24 +22,6 @@ passport.use(
         return done(err);
       });
   })
-);
-
-passport.use(
-  new JWTStrategy(
-    {
-      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.JWT_SECRET,
-    },
-    (jwtPayload, cb) => {
-      return User.findOneById(jwtPayload.id)
-        .then((user) => {
-          return cb(null, user);
-        })
-        .catch((err) => {
-          return cb(err);
-        });
-    }
-  )
 );
 
 passport.serializeUser((user, done) => {
