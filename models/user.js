@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const moment = require('moment');
+const moment = require("moment");
 
 const UserSchema = new Schema({
   username: { type: String, required: true },
@@ -10,12 +10,12 @@ const UserSchema = new Schema({
   added: { type: Date, default: Date.now },
 });
 
-UserSchema.virtual('timestamp').get(function() {
-  return moment(this.added).format('LLLL')
-})
+UserSchema.virtual("timestamp").get(function () {
+  return moment(this.added).format("LLLL");
+});
 
-UserSchema.virtual('fullname').get(function() {
-  return this.firstname + ' ' + this.lastname
-})
+UserSchema.virtual("fullname").get(function () {
+  return this.firstname + " " + this.lastname;
+});
 
 module.exports = mongoose.model("User", UserSchema);

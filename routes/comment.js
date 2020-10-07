@@ -3,4 +3,4 @@ const router = express.Router();
 
 const comment = require("../controllers/commentController");
 
-module.exports = router
+module.exports = router;

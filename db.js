@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const mongoDB = process.env.MONGO_URL || process.env.MONGO_URI;
 

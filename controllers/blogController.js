@@ -3,7 +3,7 @@ const Blog = require("../models/blog");
 const Comment = require("../models/comment");
 
 exports.blog_get = (req, res, next) => {
-  Blog.find({draft: false}, (err, data) => {
+  Blog.find({ draft: false }, (err, data) => {
     if (err) {
       return res.sendStatus(404);
     }
@@ -27,11 +27,10 @@ exports.new_post = async (req, res) => {
       author: req.user._id,
       content: req.body.content,
       title: req.body.title,
-      draft: req.body.draft || false
-    }).save()
-    res.json(blog)
+      draft: req.body.draft || false,
+    }).save();
+    res.json(blog);
   } catch (error) {
-    res.status(404).json({ error: error })
-    
+    res.status(404).json({ error: error });
   }
-}
+};

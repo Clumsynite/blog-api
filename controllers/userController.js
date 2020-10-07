@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
-const Blog = require('../models/blog');
-const Comment = require('../models/comment');
+const Blog = require("../models/blog");
+const Comment = require("../models/comment");
 
 exports.signup_post = async (req, res) => {
   try {
@@ -43,24 +43,24 @@ exports.user_update_post = async (req, res) => {
 
 exports.user_get = async (req, res) => {
   try {
-    const id = req.params.id
+    const id = req.params.id;
     const user = await User.findById(id);
-    const blogs = await Blog.find({author: id})
-    const comments = await Comment.find({author: id})
-    res.json({user, blogs, comments});
+    const blogs = await Blog.find({ author: id });
+    const comments = await Comment.find({ author: id });
+    res.json({ user, blogs, comments });
   } catch (error) {
     res.json({ error: error });
   }
 };
 
-exports.profile_get = async(req, res) => {
+exports.profile_get = async (req, res) => {
   try {
-    const id = req.user._id
+    const id = req.user._id;
     const user = await User.findById(id);
-    const blogs = await Blog.find({author: id})
-    const comments = await Comment.find({author: id})
-    res.json({user, blogs, comments})
+    const blogs = await Blog.find({ author: id });
+    const comments = await Comment.find({ author: id });
+    res.json({ user, blogs, comments });
   } catch (error) {
-    res.status(404).json({error: err})
+    res.status(404).json({ error: err });
   }
-}
+};
