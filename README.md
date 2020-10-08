@@ -2,7 +2,17 @@
 
 ## Introduction
 
-Trying out REST Api
+You can call the API `https://clumsy-blog.herokuapp.com/ROUTE/ENDPOINT`, this way
+> For Example: `https://clumsy-blog.herokuapp.com/blog/all`
+
+You can view the endpoints [below](#endpoints)
+
+Logging in before calling other endpoints is necessary. Calling `/auth/login` with `username and password` will authenticate the user, create a session and generate a *JsonWebToken* for the API to verify on each call.
+
+Therfore, Calling any other endpoint before authenticating will result in an error.  
+
+
+Furthermore, there are restrictiions placed in Update and Delete calls. For instance, You need to be author of a Blog post or comment in order to edit or delete it, it'll return an error otherwise.
 
 ## Endpoints
 
