@@ -36,18 +36,17 @@ exports.new_post = async (req, res) => {
 
 exports.update_put = async (req, res) => {
   try {
-    const owner = await Blog.find({ _id: req.params.id, author: req.user.id });
+    const owner = await Blog.find({ _id: req.params.id, author: req.user._id });
     if (owner.length > 0) {
-      // const blog = {
-      //   author: req.user._id,
-      //   content: req.body.content,
-      //   title: req.body.title,
-      //   draft: req.body.draft || false,
-      //   _id: req.params.id,
-      // };
-      // await Blog.findByIdAndUpdate(req.params.id, blog, {});
-      // res.json(blog);
-      res.json(owner);
+      const blog = {
+        author: req.user._id,
+        content: req.body.content,
+        title: req.body.title,
+        draft: req.body.draft || false,
+        _id: req.params.id,
+      };
+      await Blog.findByIdAndUpdate(req.params.id, blog, {});
+      res.json(blog);
     } else {
       res.json({ error: "You can't edit someone else's blog" });
     }
@@ -61,6 +60,10 @@ exports.blog_delete = async (req, res) => {
     const owner = await Blog.find({ _id: req.params.id, author: req.user._id });
     if (owner.length > 0) {
       await Blog.findByIdAndRemove(req.params.id);
+      const comments = await Comment.find({ blog: req.params.id });
+      comments.forEach(async (comment) => {
+        await Comment.findByIdAndRemove(comment._id);
+      });
       res.json({ message: "Post deleted successfully" });
     } else {
       res.json({ error: "You can't delete someone else's blog" });
