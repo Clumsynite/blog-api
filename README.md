@@ -36,3 +36,48 @@ ROUTE | METHOD | ENDPOINT | PURPOSE
 *`/comment`*| **GET** | *`/:id/view`* | View a Comment
 *`/comment`*| **PUT** | *`/:id/update`* | Edit a Comment
 *`/comment`*| **DELETE** | *`/:id/delete`* | Delete a Comment
+
+## Tips
+
+* Calling all blogs will only return blogs, to access comment you'll have to view each blog by calling `https://clumsy-blog.herokuapp.com/blog/:id/view`. This'll return the blog post with all its comments.
+* The user can edit or delete only posts/comments which they created.
+* If you delete a blog post, every comment inside it will be removed
+* To view your blog posts and comments you can call `https://clumsy-blog.herokuapp.com/user/me`. This'll return an object like this:
+
+  ```js
+  {
+    user: {
+      _id: Schema.Type.ObjectId,
+      username: username,
+      password: password,
+      firstname: firstname,
+      lastname: lastname,
+      added: Date()
+    },
+    blogs: [
+      {
+        _id: Schema.Type.ObjectId,
+        author: Schema.Type.ObjectId,
+        title: "Title Text",
+        content: "Blog Content",
+        added: Date()
+      },
+      ...
+    ],
+    comments: [
+      {
+        _id: Schema.Type.ObjectId,
+        author: Schema.Type.ObjectId,
+        blog: Schema.Type.ObjectId,
+        title: "Comment Title",
+        content: "Comment Content",
+        added: Date()
+      },
+      ...
+    ]
+  }
+  ```
+
+* When you logout, your session and JsonWebToken are destroyed. So, until the user logs in again, none of the API endpoints other than `/auth` will work.
+* Success Messages are returned for Logout and Delete calls which can be accessed by `result.message`, result being the fetch call.
+* Error messages are returned for errors, which can be accessed by `result.error`, result being the fetch call.
