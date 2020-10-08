@@ -34,3 +34,20 @@ exports.comment_update = async (req, res) => {
     res.status(404).json({ error: error });
   }
 };
+
+exports.comment_delete = async (req, res) => {
+  try {
+    const owner = await Comment.find({
+      _id: req.params.id,
+      author: req.user._id,
+    });
+    if (owner.length > 0) {
+      await Comment.findByIdAndRemove(req.params.id);
+      res.json({ message: "Somment successfully deleted" });
+    } else {
+      res.json({ error: "You can't delete someone else's comment" });
+    }
+  } catch (error) {
+    res.status(404).json({ error: error });
+  }
+};
