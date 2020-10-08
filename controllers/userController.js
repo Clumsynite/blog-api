@@ -83,3 +83,12 @@ exports.drafts = async (req, res) => {
     res.status(404).json({ error: error });
   }
 };
+
+exports.comment_get = async(req, res) => {
+  try {
+    const comments = await Comment.find({author: req.params.id})
+    res.json(comments)
+  } catch (error) {
+    res.status(404).json({ error: error })
+  }
+}
