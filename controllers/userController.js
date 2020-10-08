@@ -26,16 +26,20 @@ exports.signup_post = async (req, res) => {
 
 exports.user_update_put = async (req, res) => {
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const user = new User({
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      username: req.body.username,
-      password: hashedPassword,
-      _id: req.params.id,
-    });
-    const update = await User.findByIdAndUpdate(req.params.id, user, {});
-    res.json(user);
+    if (req.params.id == req.user._id) {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      const user = new User({
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        username: req.body.username,
+        password: hashedPassword,
+        _id: req.params.id,
+      });
+      await User.findByIdAndUpdate(req.params.id, user, {});
+      res.json(user);
+    } else {
+      res.json({ error: "You can't update some other user's details" });
+    }
   } catch (err) {
     res.json({ error: err });
   }
@@ -84,11 +88,11 @@ exports.drafts = async (req, res) => {
   }
 };
 
-exports.comment_get = async(req, res) => {
+exports.comment_get = async (req, res) => {
   try {
-    const comments = await Comment.find({author: req.params.id})
-    res.json(comments)
+    const comments = await Comment.find({ author: req.params.id });
+    res.json(comments);
   } catch (error) {
-    res.status(404).json({ error: error })
+    res.status(404).json({ error: error });
   }
-}
+};
