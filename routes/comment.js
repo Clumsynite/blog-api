@@ -3,4 +3,6 @@ const router = express.Router();
 
 const comment = require("../controllers/commentController");
 
+router.get('/:id/view', comment.comment_get)
+
 module.exports = router;
