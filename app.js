@@ -3,16 +3,22 @@ const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+const path = require('path');
 const mongoose = require("mongoose");
 const passport = require("passport");
 const routes = require("./routes");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
+const marked = require("marked");
 const app = express();
 
 require("./passport");
 
 require("./db");
 
+app.use(express.static('./styles'))
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
@@ -54,6 +60,24 @@ async function verifyToken(req, res, next) {
     return res.status(403).send("Error");
   }
 }
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  pedantic: false,
+  gfm: true,
+  headerIds: true,
+  breaks: true,
+  smartLists: true,
+  smartypants: true
+});
+
+app.get("/", async (req, res) => {
+  fs.readFile("./README.md", "utf8", (err, data) => {
+    if (err) {
+      return res.json({ error: error });
+    }
+    res.render('index', {data: marked(data)})
+  });
+});
 
 app.use("/auth", routes.auth);
 app.use("/user", verifyToken, routes.user);
