@@ -5,12 +5,11 @@
 You can call the API `https://clumsy-blog.herokuapp.com/ROUTE/ENDPOINT`, this way
 > For Example: `https://clumsy-blog.herokuapp.com/blog/all`
 
-You can view the endpoints [below](#endpoints)
+You can view the endpoints [here](#endpoints)
 
-Logging in before calling other endpoints is necessary. Calling `/auth/login` with `username and password` will authenticate the user, create a session and generate a *JsonWebToken* for the API to verify on each call.
+Logging in before calling other endpoints is **necessary**. Calling `/auth/login` with `username and password` will authenticate the user, create a session and generate a *JsonWebToken* for the API to verify on each call.
 
-Therfore, Calling any other endpoint before authenticating will result in an error.  
-
+Since, Calling any other endpoint before authenticating will result in an error.  
 
 Furthermore, there are restrictiions placed in Update and Delete calls. For instance, You need to be author of a Blog post or comment in order to edit or delete it, it'll return an error otherwise.
 
@@ -39,10 +38,10 @@ ROUTE | METHOD | ENDPOINT | PURPOSE
 
 ## Tips
 
-* Calling all blogs will only return blogs, to access comment you'll have to view each blog by calling `https://clumsy-blog.herokuapp.com/blog/:id/view`. This'll return the blog post with all its comments.
-* The user can edit or delete only posts/comments which they created.
-* If you delete a blog post, every comment inside it will be removed
-* To view your blog posts and comments you can call `https://clumsy-blog.herokuapp.com/user/me`. This'll return an object like this:
+* Calling all blogs will only return the blogs, to access comments inside those blogs you'll have to view each blog by calling `https://clumsy-blog.herokuapp.com/blog/:id/view`. This'll return the blog post with all its comments.
+* The user can only edit or delete posts or comments which **they** have created.
+* If you delete a blog post, **every** comment inside it will be removed
+* To view your blog posts and comments you can call `https://clumsy-blog.herokuapp.com/user/me`. This'll return an object which'll look like this:
 
   ```js
   {
