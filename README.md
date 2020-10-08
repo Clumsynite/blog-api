@@ -80,3 +80,20 @@ ROUTE | METHOD | ENDPOINT | PURPOSE
 * When you logout, your session and JsonWebToken are destroyed. So, until the user logs in again, none of the API endpoints other than `/auth` will work.
 * Success Messages are returned for Logout and Delete calls which can be accessed by `result.message`, result being the fetch call.
 * Error messages are returned for errors, which can be accessed by `result.error`, result being the fetch call.
+
+## Packages Used For?
+
+* **bcryptjs** : *To hash passwords*
+* **connect-mongo**: *To store session on mongodb*
+* **cookie-parser**: *read cookie for token verification*
+* **cors** - *to enable `cross-origin-resource-sharing`*
+* **dotenv**: *To access environment variables*
+* **express-session**: *To initiate and manage session on server*
+* **jsonwebtoken** - *creates token for API to verify on each call*
+* **marked** - *parse `README.md` as HTML*
+* **moment**: *To parse timestamp*
+* **mongoose**: *To access and modify mongodb*
+* **nodemon**: *To restart server on save*
+* **passport**: *To authenticate User*
+* **passport-local**: *Access passport's Local Strategy*
+* **pug**: *HTML template engine for javascript*
