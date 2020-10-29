@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
-const path = require('path');
+const path = require("path");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const routes = require("./routes");
@@ -16,12 +16,17 @@ require("./passport");
 
 require("./db");
 
-app.use(express.static('./styles'))
+app.use(express.static("./styles"));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: true,
+  })
+);
 app.use(cookieParser());
 const MongoStore = require("connect-mongo")(session);
 const connection = mongoose.createConnection(process.env.MONGO_URI, {
@@ -51,13 +56,19 @@ app.use((req, res, next) => {
 });
 
 async function verifyToken(req, res, next) {
-  try {
-    const token = req.cookies.auth;
-    const decoded = await jwt.verify(token, process.env.JWT_SECRET);
-    req.user_data = decoded;
-    next();
-  } catch (error) {
-    return res.status(403).send("Error");
+  const bearerHeader = req.headers["authorization"];
+  if (bearerHeader) {
+    const bearer = bearerHeader.split(" ");
+    const bearerToken = bearer[1];
+    jwt.verify(bearerToken, process.env.JWT_SECRET, (error, data) => {
+      if (error) {
+        return res.status(403).send("Error");
+      }
+      req.token = bearerToken;
+      next();
+    });
+  } else {
+    return res.status(401);
   }
 }
 marked.setOptions({
@@ -67,7 +78,7 @@ marked.setOptions({
   headerIds: true,
   breaks: true,
   smartLists: true,
-  smartypants: true
+  smartypants: true,
 });
 
 app.get("/", async (req, res) => {
@@ -75,7 +86,7 @@ app.get("/", async (req, res) => {
     if (err) {
       return res.json({ error: error });
     }
-    res.render('index', {data: marked(data)})
+    res.render("index", { data: marked(data) });
   });
 });
 
