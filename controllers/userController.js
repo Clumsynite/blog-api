@@ -61,8 +61,10 @@ exports.profile_get = async (req, res) => {
   try {
     const id = req.user._id;
     const user = await User.findById(id);
-    const blogs = await Blog.find({ author: id });
-    const comments = await Comment.find({ author: id });
+    const blogs = await Blog.find({ author: id }).populate("author");
+    const comments = await Comment.find({ author: id })
+      .populate("blog")
+      .populate("author");
     res.json({ user, blogs, comments });
   } catch (error) {
     res.status(404).json({ error: err });
@@ -71,8 +73,13 @@ exports.profile_get = async (req, res) => {
 
 exports.blog_get = async (req, res) => {
   try {
-    const blogs = await Blog.find({ author: req.params.id, draft: false });
-    const comments = await Comment.find({ author: req.params.id });
+    const blogs = await Blog.find({
+      author: req.params.id,
+      draft: false,
+    }).populate("author");
+    const comments = await Comment.find({ author: req.params.id })
+      .populate("blog")
+      .populate("author");
     res.json({ blogs, comments });
   } catch (error) {
     res.status(404).json({ error: error });
@@ -81,7 +88,10 @@ exports.blog_get = async (req, res) => {
 
 exports.drafts = async (req, res) => {
   try {
-    const drafts = await Blog.find({ author: req.user._id, draft: true });
+    const drafts = await Blog.find({
+      author: req.user._id,
+      draft: true,
+    }).populate("author");
     res.json(drafts);
   } catch (error) {
     res.status(404).json({ error: error });
@@ -90,7 +100,9 @@ exports.drafts = async (req, res) => {
 
 exports.comment_get = async (req, res) => {
   try {
-    const comments = await Comment.find({ author: req.params.id });
+    const comments = await Comment.find({ author: req.params.id })
+      .populate("author")
+      .populate("blog");
     res.json(comments);
   } catch (error) {
     res.status(404).json({ error: error });
