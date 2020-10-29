@@ -6,7 +6,7 @@ exports.blog_get = (req, res, next) => {
     if (err) {
       return res.sendStatus(404);
     }
-    res.send(data);
+    res.json(data);
   });
 };
 
