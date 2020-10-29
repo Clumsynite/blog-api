@@ -2,18 +2,22 @@ const Blog = require("../models/blog");
 const Comment = require("../models/comment");
 
 exports.blog_get = (req, res, next) => {
-  Blog.find({ draft: false }, (err, data) => {
-    if (err) {
-      return res.sendStatus(404);
-    }
-    res.json(data);
-  });
+  Blog.find({ draft: false })
+    .populate("author")
+    .exec((err, data) => {
+      if (err) {
+        return res.sendStatus(404);
+      }
+      res.json(data);
+    });
 };
 
 exports.blog_view_get = async (req, res) => {
   try {
-    const blog = await Blog.findById(req.params.id);
-    const comment = await Comment.find({ blog: req.params.id });
+    const blog = await await Blog.findById(req.params.id).populate("author");
+    const comment = await Comment.find({ blog: req.params.id })
+      .populate("author")
+      .populate("blog");
     res.json({ blog, comment });
   } catch (error) {
     res.status(404).json({ error: error });
