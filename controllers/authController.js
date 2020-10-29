@@ -11,7 +11,7 @@ exports.login_post = (req, res) => {
     }
     req.login(user, (err) => {
       if (err) {
-        res.send(err);
+        res.json(err);
       }
       const body = {
         _id: user._id,
