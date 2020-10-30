@@ -68,7 +68,7 @@ exports.profile_get = async (req, res) => {
     const comments = await Comment.find({ author: id })
       .populate("blog")
       .populate("author");
-    return res.json({ user, blogs, comments });
+    res.json({ user, blogs, comments });
   } catch (error) {
     return res.status(404);
   }
