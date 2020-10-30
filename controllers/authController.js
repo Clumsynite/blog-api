@@ -18,7 +18,7 @@ exports.login_post = (req, res) => {
         firstname: user.firstname,
       };
       const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
-      res.cookie("auth", token, { httpOnly: true });
+      res.cookie("auth", token, { httpOnly: true});
       res.json({ user, token });
     });
   })(req, res);

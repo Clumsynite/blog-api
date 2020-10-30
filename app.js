@@ -44,11 +44,6 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: sessionStore,
-    cookie: {
-      path: "/",
-      httpOnly: true,
-      secure: true,
-    },
   })
 );
 app.use(passport.initialize());
