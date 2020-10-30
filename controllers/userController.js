@@ -49,8 +49,10 @@ exports.user_get = async (req, res) => {
   try {
     const id = req.params.id;
     const user = await User.findById(id);
-    const blogs = await Blog.find({ author: id });
-    const comments = await Comment.find({ author: id });
+    const blogs = await Blog.find({ author: id }).populate("author");
+    const comments = await Comment.find({ author: id })
+      .populate("author")
+      .populate("blog");
     res.json({ user, blogs, comments });
   } catch (error) {
     res.json({ error: error });
@@ -67,7 +69,7 @@ exports.profile_get = async (req, res) => {
       .populate("author");
     res.json({ user, blogs, comments });
   } catch (error) {
-    res.status(404).json({ error: err });
+    res.status(404).json(error );
   }
 };
 
