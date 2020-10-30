@@ -46,7 +46,6 @@ app.use(
     store: sessionStore,
   })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -57,6 +56,7 @@ app.use((req, res, next) => {
 
 async function verifyToken(req, res, next) {
   const bearerHeader = req.headers["authorization"];
+  const token = req.cookies.auth
   if (bearerHeader) {
     const bearer = bearerHeader.split(" ");
     const bearerToken = bearer[1];
@@ -67,7 +67,16 @@ async function verifyToken(req, res, next) {
       req.token = bearerToken;
       next();
     });
-  } else {
+  }else if(token){
+    try {
+      const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+      req.user_data = decoded;
+      next();
+    } catch (error) {
+      return res.status(403).send("Error");
+    }
+  } 
+  else {
     return res.status(401);
   }
 }
