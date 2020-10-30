@@ -37,13 +37,18 @@ const sessionStore = new MongoStore({
   mongooseConnection: connection,
   collection: "sessions",
 });
-
+app.set("trust proxy", 1);
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     store: sessionStore,
+    cookie: {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    },
   })
 );
 app.use(passport.initialize());
