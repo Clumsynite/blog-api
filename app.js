@@ -50,7 +50,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
+  app.locals.currentUser = req.user;
   next();
 });
 
