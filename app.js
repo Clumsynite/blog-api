@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000", "clumsynite.github.io/blog-read"],
+    origin: true,
   })
 );
 app.use(cookieParser());
