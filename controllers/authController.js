@@ -19,10 +19,7 @@ exports.login_post = (req, res) => {
       };
       const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
       res.cookie("auth", token, {
-        path: "/",
-        secure: true,
         httpOnly: true,
-        sameSite: "none",
       });
       res.json({ user, token });
     });
