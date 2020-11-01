@@ -60,7 +60,6 @@ exports.user_get = async (req, res) => {
 exports.profile_get = async (req, res) => {
   try {
     const id = req.user._id;
-    console.log(req.user);
     const user = await User.findById(id);
     const blogs = await Blog.find({ author: id }).populate("author");
     const comments = await Comment.find({ author: id })
