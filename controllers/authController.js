@@ -30,10 +30,11 @@ exports.login_post = (req, res) => {
 };
 
 exports.logout_post = (req, res) => {
-  res.clearCookie("auth");
   req.logout();
   req.session.destroy((err) => {
     if (err) throw new Error(err);
     res.json({ message: "Logged out successfully" });
+    res.clearCookie("auth");
+    res.clearCookie("connect.sid");
   });
 };
