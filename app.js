@@ -37,6 +37,7 @@ const sessionStore = new MongoStore({
   mongooseConnection: connection,
   collection: "sessions",
 });
+app.set("trust proxy", 1);
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
