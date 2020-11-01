@@ -104,7 +104,7 @@ app.get("/", async (req, res) => {
 });
 
 app.use("/auth", routes.auth);
-app.use("/user", verifyToken, routes.user);
+app.use("/user", routes.user);
 app.use("/blog", verifyToken, routes.blog);
 app.use("/comment", verifyToken, routes.comment);
 
