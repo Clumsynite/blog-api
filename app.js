@@ -45,7 +45,6 @@ app.use(
     saveUninitialized: true,
     store: sessionStore,
     cookie: {
-      path: "/",
       httpOnly: true,
       secure: true,
       sameSite: "none",
