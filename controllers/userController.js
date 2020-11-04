@@ -49,8 +49,10 @@ exports.user_get = async (req, res) => {
   try {
     const id = req.params.id;
     const user = await User.findById(id);
-    const blogs = await Blog.find({ author: id });
-    const comments = await Comment.find({ author: id });
+    const blogs = await Blog.find({ author: id }).populate("author");
+    const comments = await Comment.find({ author: id })
+      .populate("blog")
+      .populate("author");
     res.json({ user, blogs, comments });
   } catch (error) {
     res.json({ error: error });
