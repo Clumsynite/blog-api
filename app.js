@@ -19,14 +19,14 @@ require("./db");
 app.use(express.static("./styles"));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     credentials: true,
     origin: true,
   })
 );
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 const MongoStore = require("connect-mongo")(session);
 const connection = mongoose.createConnection(process.env.MONGO_URI, {
@@ -54,9 +54,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use((req, res, next) => {
-  res.header(("Access-Control-Allow-Origin": "*"));
-});
 app.use((req, res, next) => {
   app.locals.currentUser = req.user;
   next();
