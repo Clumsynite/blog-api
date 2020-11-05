@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is the Backend for:
+Works as Backend for:
 
 - Blog Read : [Live Page](https://clumsynite.github.io/blog-read/) **||** [Repository](https://github.com/clumsynite/blog-read)
 - Blog Write : [Live Page](https://clumsynite.github.io/blog-write/) **||** [Repository](https://github.com/clumsynite/blog-write)
